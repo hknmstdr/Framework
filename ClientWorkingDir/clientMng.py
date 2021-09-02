@@ -65,7 +65,7 @@ def initServerSide():     #inits serverside(serverMng runs a container,doesn't r
     return
 
 def giveContainerUriToClientApp():
-    containerUri = serverMng.containerUri(clientUuid)
+    containerUri = serverMng.returnServerAppUri(clientUuid)
     while containerUri.ready != True:
         pass
     print("containerUri = " + containerUri.value)
@@ -99,18 +99,18 @@ def controlFileTime(stopEvent, opCont): # stopEvent=pill2kill
         addRoute()
         if(opCont.is_set() == True): #there is an operation on server
             print("there is a process on server")    
-            previousResult = serverMng.getPreviousResult(oldServerUri, clientUuid, baseVolumeId)           
+            previousResult = serverMng.getUnfinishedOpResult(oldServerUri, clientUuid, baseVolumeId)           
             print("getting list from old server")
             print(previousResult.value)
             stopEvent.clear()
             opCont.clear()
-            serverMng.deleteOldContainerFromNewServer(clientUuid)
+            serverMng.deleteFromNewServer(clientUuid)
         else: #no unfinished operation on server
             print("no process on server")
             isVolSent = serverMng.getVolume(oldServerUri, clientUuid, baseVolumeId)
             while isVolSent.ready != True:
                 pass
-            serverMng.deleteOldContainerFromNewServer(clientUuid)
+            serverMng.deleteFromNewServer(clientUuid)
             stopEvent.clear()
             
 def setOperationCont():
