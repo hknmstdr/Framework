@@ -73,7 +73,7 @@ def giveContainerUriToClientApp():
     containerObject._pyroAsync()
     return containerObject
 
-def controlFileTime(stopEvent, opCont): # stopEvent=pill2kill
+def controlServerUri(stopEvent, opCont): # stopEvent=pill2kill
     filename = clientLocFile
     _cached_stamp = os.stat(filename).st_mtime  #cache the time
     while True:
@@ -125,7 +125,7 @@ operationCont.clear()
 pill2kill = threading.Event()
 pill2kill.clear()
      
-t1 = threading.Thread(target=controlFileTime, args=(pill2kill, operationCont, ))
+t1 = threading.Thread(target=controlServerUri, args=(pill2kill, operationCont, ))
 t1.start()
 
 def handler(signal_received, frame):
