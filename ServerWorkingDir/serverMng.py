@@ -81,7 +81,7 @@ class ServerManager(object):
         time.sleep(0.5)
         return 1
         
-    def containerUri(self, clientUuid):
+    def returnServerAppUri(self, clientUuid):
         #read container pyro uri from file
         volumePath = os.getcwd() + "/volumes/" + dictionary[clientUuid]
         path = volumePath + "/serverTODOuri.txt"
@@ -116,7 +116,7 @@ class ServerManager(object):
         return 1
       
     
-    def getPreviousResult(self, oldServerUri, clientUuid, baseVolumeId):
+    def getUnfinishedOpResult(self, oldServerUri, clientUuid, baseVolumeId):
         volumeName = "volumeFolder_" + str(clientUuid)
         dictionary[clientUuid] = volumeName
         global oldServerMng
@@ -129,7 +129,7 @@ class ServerManager(object):
             oldServerMng._pyroRelease()
         return result.value    #return result to client
     
-    def givePreviousResult(self, clientUuid, path, username, baseVolumeId):
+    def giveUnfinishedOpResult(self, clientUuid, path, username, baseVolumeId):
         volumeName = dictionary[clientUuid]
         volumePath = os.getcwd() + "/volumes/" + volumeName
         rsyncCommand = "/usr/bin/rsync -av --rsh=\"/usr/bin/sshpass -p ssh -o StrictHostKeyChecking=no -l " + username + "\" " + os.getcwd() + "/volumes/" + volumeName + " " + path
@@ -144,7 +144,7 @@ class ServerManager(object):
         os.system(rsyncCommand)             
         return result
         
-    def deleteOldContainerFromNewServer(self, clientUuid):
+    def deleteFromNewServer(self, clientUuid):
         oldServerMng.deleteOldContainer(clientUuid)         
         return              
         
