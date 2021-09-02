@@ -22,7 +22,7 @@ class ToDoClass(object):
         sqliteConnection.close()
         return
                
-    def sendToDoList(self):
+    def sendList(self):
         open('volumeFolder/result.txt', 'w').close() #delete content of result.txt
         time.sleep(5)
         sqliteConnection = sqlite3.connect('volumeFolder/list.db')
